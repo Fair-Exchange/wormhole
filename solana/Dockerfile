@@ -14,7 +14,12 @@ RUN apt-get update && \
     rustup component add rustfmt && \
     rustup default nightly-2021-08-01
 
-RUN sh -c "$(curl -sSfL https://release.solana.com/v1.7.8/install)"
+
+RUN mkdir -p /root/.local/share/solana/install/active_release
+
+RUN curl -L https://github.com/Fair-Exchange/Safecoin/releases/download/v1.6.19/safecoin-release-x86-64-linux.tar.gz > /root/.local/share/solana/install/active_release/safecoin-release-x86-64-linux.tar.gz
+
+RUN tar -xvf /root/.local/share/solana/install/active_release/safecoin-release-x86-64-linux.tar.gz
 
 ENV PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
 
