@@ -5,7 +5,7 @@ import {
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA,
 } from "@certusone/wormhole-sdk";
-import { clusterApiUrl } from "@solana/web3.js";
+import { clusterApiUrl } from "@safecoin/web3.js";
 import { getAddress } from "ethers/lib/utils";
 
 export type Cluster = "devnet" | "testnet" | "mainnet";
@@ -14,7 +14,7 @@ export const CLUSTER: Cluster =
     ? "mainnet"
     : process.env.REACT_APP_CLUSTER === "testnet"
     ? "testnet"
-    : "devnet";
+    : "mainnet";
 export interface ChainInfo {
   id: ChainId;
   name: string;
@@ -61,7 +61,7 @@ export const WORMHOLE_RPC_HOST =
 export const ETH_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 1 : CLUSTER === "testnet" ? 5 : 1337;
 export const SOLANA_HOST =
-  CLUSTER === "testnet" ? clusterApiUrl("testnet") : "http://localhost:8899";
+  CLUSTER === "testnet" ? clusterApiUrl("testnet") : "http://localhost:8328";
 export const TERRA_HOST = {
   URL: "http://localhost:1317",
   chainID: "columbus-4",

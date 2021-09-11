@@ -22,7 +22,7 @@ pub struct Cli {
         default_value = "~/.config/solana/id.json"
     )]
     pub payer: String,
-    #[clap(long, default_value = "http://localhost:8899")]
+    #[clap(long, default_value = "http://localhost:8328")]
     pub rpc_url: String,
     #[clap(long)]
     pub p2w_addr: Pubkey,

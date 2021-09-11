@@ -10,8 +10,8 @@ PYTH_PUBLISHER_KEYPAIR = f"{PYTH_KEY_STORE}/publish_key_pair.json"
 PYTH_PUBLISHER_INTERVAL = float(os.environ.get("PYTH_PUBLISHER_INTERVAL", "5"))
 
 SOL_AIRDROP_AMT = 100
-SOL_RPC_HOST = "solana-devnet"
-SOL_RPC_PORT = 8899
+SOL_RPC_HOST = "safecoin"
+SOL_RPC_PORT = 8328
 SOL_RPC_URL = f"http://{SOL_RPC_HOST}:{str(SOL_RPC_PORT)}"
 
 READINESS_PORT=os.environ.get("READINESS_PORT", "2000")

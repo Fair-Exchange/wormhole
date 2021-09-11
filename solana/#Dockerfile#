@@ -8,14 +8,13 @@ RUN apt-get update && \
     libudev-dev \
     llvm \
     pkg-config \
-    zlib1g-dev \
+    zlib1g-dev \https://github.com/Fair-Exchange/Safecoin/releases/download/v1.6.19/install
     && \
     rm -rf /var/lib/apt/lists/* && \
     rustup component add rustfmt && \
-    rustup default nightly-2021-09-01 && \
-    rustup update
+    rustup default nightly-2021-08-01
 
-RUN sh -c "$(curl -sSfL https://github.com/Fair-Exchange/Safecoin/releases/download/v1.6.19/install)"
+RUN sh -c "$(curl -sSfL )"
 
 ENV PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
 
@@ -52,7 +51,7 @@ RUN --mount=type=cache,target=bridge/target \
     --mount=type=cache,target=bin,from=rust,source=bin \
     cargo build-bpf --manifest-path "bridge/program/Cargo.toml" && \
     cargo build-bpf --manifest-path "bridge/cpi_poster/Cargo.toml" && \
-     cargo build-bpf --manifest-path "modules/token_bridge/program/Cargo.toml" && \
+    cargo build-bpf --manifest-path "modules/token_bridge/program/Cargo.toml" && \
     cp bridge/target/deploy/bridge.so /opt/solana/deps/bridge.so && \
     cp bridge/target/deploy/cpi_poster.so /opt/solana/deps/cpi_poster.so && \
     cp modules/token_bridge/target/deploy/token_bridge.so /opt/solana/deps/token_bridge.so && \

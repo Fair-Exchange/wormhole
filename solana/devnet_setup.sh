@@ -5,9 +5,9 @@ set -x
 # Configure CLI (works the same as upstream Solana CLI)
 mkdir -p ~/.config/solana/cli
 cat <<EOF > ~/.config/solana/cli/config.yml
-json_rpc_url: "http://127.0.0.1:8899"
+json_rpc_url: "http://127.0.0.1:8328"
 websocket_url: ""
-keypair_path: /usr/src/solana/keys/solana-devnet.json
+keypair_path: /usr/src/solana/keys/safecoin.json
 EOF
 
 # Static key for the mint so it always has the same address
@@ -29,35 +29,35 @@ retry () {
   done
 }
 
-# Fund our account (as seen in solana-devnet.json).
-retry solana airdrop 1000 --faucet-port 9900 --faucet-host 127.0.0.1
+# Fund our account (as seen in safecoin.json).
+#retry solana airdrop 1000 --faucet-port 9900 --faucet-host 127.0.0.1
 
 # Create a new SPL token
-token=$(spl-token create-token -- token.json | grep 'Creating token' | awk '{ print $3 }')
+#token=$(spl-token create-token -- token.json | grep 'Creating token' | awk '{ print $3 }')
 echo "Created token $token"
 
 # Create token account
-account=$(spl-token create-account "$token" | grep 'Creating account' | awk '{ print $3 }')
+#account=$(spl-token create-account "$token" | grep 'Creating account' | awk '{ print $3 }')
 echo "Created token account $account"
 
 # Mint new tokens owned by our CLI account
-spl-token mint "$token" 10000000000 "$account"
+#spl-token mint "$token" 10000000000 "$account"
 
 # Create meta for token
-token-bridge-client create-meta "$token" "Solana Test Token" "SOLT"
+#token-bridge-client create-meta "$token" "Solana Test Token" "SOLT"
 
 # Create the bridge contract at a known address
 # OK to fail on subsequent attempts (already created).
-retry client create-bridge "$bridge_address" "$initial_guardian" 86400 100
+#retry client create-bridge "$bridge_address" "$initial_guardian" 86400 100
 
 # Initialize the token bridge
-retry token-bridge-client create-bridge "$token_bridge_address" "$bridge_address"
+#retry token-bridge-client create-bridge "$token_bridge_address" "$bridge_address"
 
 # Register the Solana Endpoint on ETH
-pushd /usr/src/clients/token_bridge
-node main.js solana execute_governance_vaa $(node main.js generate_register_chain_vaa 2 0x0000000000000000000000000290FB167208Af455bB137780163b7B7a9a10C16)
-node main.js solana execute_governance_vaa $(node main.js generate_register_chain_vaa 3 0x000000000000000000000000784999135aaa8a3ca5914468852fdddbddd8789d)
-popd
+#pushd /usr/src/clients/token_bridge
+#node main.js solana execute_governance_vaa $(node main.js generate_register_chain_vaa 2 0x0000000000000000000000000290FB167208Af455bB137780163b7B7a9a10C16)
+#node main.js solana execute_governance_vaa $(node main.js generate_register_chain_vaa 3 0x000000000000000000000000784999135aaa8a3ca5914468852fdddbddd8789d)
+#popd
 
 # Let k8s startup probe succeed
 nc -k -l -p 2000

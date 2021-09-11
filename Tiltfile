@@ -104,7 +104,7 @@ def build_node_yaml():
 
 k8s_yaml_with_ns(build_node_yaml())
 
-k8s_resource("guardian", resource_deps = ["proto-gen", "solana-devnet"], port_forwards = [
+k8s_resource("guardian", resource_deps = ["proto-gen", "safecoin"], port_forwards = [
     port_forward(6060, name = "Debug/Status Server [:6060]"),
     port_forward(7070, name = "Public gRPC [:7070]"),
     port_forward(7071, name = "Public REST [:7071]"),
@@ -117,7 +117,7 @@ docker_build(
 )
 k8s_yaml_with_ns("./devnet/pyth.yaml")
 
-k8s_resource("pyth", resource_deps = ["solana-devnet"])
+k8s_resource("pyth", resource_deps = ["safecoin"])
 
 # publicRPC proxy that allows grpc over http1, for local development
 
@@ -155,14 +155,14 @@ docker_build(
 
 # solana local devnet
 
-k8s_yaml_with_ns("devnet/solana-devnet.yaml")
+k8s_yaml_with_ns("devnet/safecoin.yaml")
 
 k8s_resource(
-    "solana-devnet",
+    "safecoin",
     resource_deps = ["wasm-gen"],
     port_forwards = [
-        port_forward(8899, name = "Solana RPC [:8899]"),
-        port_forward(8900, name = "Solana WS [:8900]"),
+        port_forward(8328, name = "Solana RPC [:8328]"),
+        port_forward(8329, name = "Solana WS [:8329]"),
         port_forward(9000, name = "Solana PubSub [:9000]"),
     ],
 )

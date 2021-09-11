@@ -148,7 +148,7 @@ yargs(hideBin(process.argv))
         alias: 'u',
         type: 'string',
         description: 'URL of the Solana RPC',
-        default: "http://localhost:8899"
+        default: "http://localhost:8328"
     })
     .option('bridge', {
         alias: 'b',

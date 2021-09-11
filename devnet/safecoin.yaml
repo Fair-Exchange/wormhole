@@ -1,0 +1,101 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: safecoin
+  labels:
+    app: safecoin
+spec:
+  ports:
+    - port: 8328
+      name: rpc
+      protocol: TCP
+    - port: 8329
+      name: faucet
+      protocol: TCP
+  clusterIP: None
+  selector:
+    app: safecoin
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: safecoin
+spec:
+  selector:
+    matchLabels:
+      app: safecoin
+  serviceName: safecoin
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: safecoin
+    spec:
+      terminationGracePeriodSeconds: 1
+      containers:
+        - name: mainnet-beta
+          image: solana-contract
+          command:
+            - /root/.local/share/solana/install/active_release/bin/solana-test-validator
+            - --bpf-program
+            - Bridge1p5gheXUvJ6jGWGeCsgPKgnE3YgdGKRVCMY9o
+            - /opt/solana/deps/bridge.so
+            - --bpf-program
+            - B6RHG3mfcckmrYN1UhmJzyS1XX3fZKbkeUcpJe9Sy3FE
+            - /opt/solana/deps/token_bridge.so
+            - --bpf-program
+            - CP1co2QMMoDPbsmV7PGcUTLFwyhgCgTXt25gLQ5LewE1
+            - /opt/solana/deps/cpi_poster.so
+            - --bpf-program
+            - metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s
+            - /opt/solana/deps/spl_token_metadata.so
+            - --bpf-program
+            - gMYYig2utAxVoXnM9UhtTWrt8e7x2SVBZqsWZJeT5Gw # Derived from pyth_program.json
+            - /opt/solana/deps/pyth_oracle.so
+            - --log
+          ports:
+            - containerPort: 10001
+              name: gossip
+              protocol: UDP
+            - containerPort: 10003
+              name: tpu
+              protocol: UDP
+            - containerPort: 10004
+              name: tpufwd
+              protocol: UDP
+            - containerPort: 10000
+              name: tvu
+              protocol: UDP
+            - containerPort: 10002
+              name: tvufwd
+              protocol: UDP
+            - containerPort: 10006
+              name: repair
+              protocol: UDP
+            - containerPort: 10007
+              name: serverepair
+              protocol: UDP
+            - containerPort: 8328
+              name: rpc
+              protocol: TCP
+            - containerPort: 8329
+              name: pubsub
+              protocol: TCP
+            - containerPort: 8329
+              name: faucet
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              port: rpc
+              path: /health
+            periodSeconds: 1
+        - name: setup
+          image: solana-client
+          command:
+            - /usr/src/solana/devnet_setup.sh
+          readinessProbe:
+            tcpSocket:
+              port: 2000
+            periodSeconds: 1
+            failureThreshold: 300
