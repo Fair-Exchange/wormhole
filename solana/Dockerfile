@@ -63,5 +63,5 @@ WORKDIR $PYTH_DIR/pyth-client/program
 RUN make SOLANA=~/.local/share/solana/install/active_release/bin OUT_DIR=../target && \
     cp ../target/oracle.so /opt/solana/deps/pyth_oracle.so
 
-ENV RUST_LOG="solana_runtime::system_instruction_processor=trace,solana_runtime::message_processor=trace,solana_bpf_loader=debug,solana_rbpf=debug"
+ENV RUST_LOG="safecoin_runtime::system_instruction_processor=trace,safecoin_runtime::message_processor=trace,solana_bpf_loader=debug,solana_rbpf=debug"
 ENV RUST_BACKTRACE=1

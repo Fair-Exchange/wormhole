@@ -37,7 +37,7 @@ spec:
         - name: mainnet-beta
           image: solana-contract
           command:
-            - /root/.local/share/solana/install/active_release/bin/solana-test-validator
+            - /root/.local/share/solana/install/active_release/bin/safecoin-test-validator
             - --bpf-program
             - Bridge1p5gheXUvJ6jGWGeCsgPKgnE3YgdGKRVCMY9o
             - /opt/solana/deps/bridge.so
@@ -91,7 +91,7 @@ spec:
               path: /health
             periodSeconds: 1
         - name: setup
-          image: solana-client
+          image: safecoin-client
           command:
             - /usr/src/solana/devnet_setup.sh
           readinessProbe:

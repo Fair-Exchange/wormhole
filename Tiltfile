@@ -67,7 +67,7 @@ local_resource(
 
 local_resource(
     name = "wasm-gen",
-    deps = ["solana"],
+    deps = ["safecoin"],
     dir = "solana",
     cmd = "tilt docker build -- -f Dockerfile.wasm -o type=local,dest=.. .",
     env = {"DOCKER_BUILDKIT": "1"},
@@ -136,7 +136,7 @@ k8s_resource(
 # solana client cli (used for devnet setup)
 
 docker_build(
-    ref = "solana-client",
+    ref = "safecoin-client",
     context = ".",
     only = ["./proto", "./solana", "./ethereum", "./clients/token_bridge"],
     dockerfile = "Dockerfile.client",
