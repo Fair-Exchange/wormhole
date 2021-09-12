@@ -16,5 +16,5 @@ test-bpf = []
 
 [dependencies]
 borsh = "0.8.1"
-solana-program = "1.7.0"
-spl-token = { version = "=3.1.0", features = ["no-entrypoint"] }
+safecoin-program = "1.6.19"
+safe-token = { version = "=3.1.6", features = ["no-entrypoint"] }
